@@ -35,6 +35,8 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 			<tr>
+
+				<th>Id</th>
 				<th>Nombre</th>
 				<th>Apellido</th>
 				<th>Correo</th>
@@ -44,6 +46,7 @@
 			</thead>
 			<tbody>
 				<tr th:each = "usuario : ${usuarios}">
+				<td><a class="btn btn-primary" th:href="@{/ver/} + ${usuario.Id}" th:text="${usuario.Id}"/></td>
 				<td th:text=${usuario.nombre}></td>
 				<td th:text=${usuario.apellido}></td>
 				<td th:text=${usuario.correo}></td>

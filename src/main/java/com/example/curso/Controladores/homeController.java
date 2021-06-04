@@ -53,4 +53,11 @@ public class homeController {
 		return "redirect:/home";
 	}
 
+	@GetMapping("/ver/{Id}")
+	public String ver(Usuario usuario, Model model){
+		usuario = uService.getOne(usuario);
+		model.addAttribute("usuario", usuario);
+		return "ver";
+	}
+
 }
