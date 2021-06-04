@@ -40,6 +40,7 @@
 				<th>Nombre</th>
 				<th>Apellido</th>
 				<th>Correo</th>
+				<th>Fecha</th>
 				<th>Eliminar</th>
 				<th>Editar</th>
 			</tr>
@@ -50,6 +51,7 @@
 				<td th:text=${usuario.nombre}></td>
 				<td th:text=${usuario.apellido}></td>
 				<td th:text=${usuario.correo}></td>
+				<td th:text="${usuario.fecha}"></td>
 				<td><a class="btn btn-danger" th:href="@{/borrar/} + ${usuario.Id}" th:text="Eliminar" /></td>
 				<td><a class="btn btn-primary" th:href="@{/editar/} + ${usuario.Id}" th:text="Editar"/></td>
 			</tr>

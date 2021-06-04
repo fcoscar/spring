@@ -1,12 +1,12 @@
 package com.example.curso.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +21,7 @@ public class Usuario{
 	private String nombre;
 	private String apellido;
 	private String correo;
+	private String fecha;
 	
 	
 }

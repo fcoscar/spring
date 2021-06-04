@@ -1,6 +1,11 @@
 package com.example.curso.Controladores;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +35,9 @@ public class homeController {
 	}
 
 	@GetMapping("/agregar")
-	public String add(Usuario usuario){
+	public String add(Usuario usuario, Model mdoel){
+		var fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+		usuario.setFecha(fecha);
 		return "lista";
 	}
 
