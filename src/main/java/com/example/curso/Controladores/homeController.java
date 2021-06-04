@@ -32,7 +32,7 @@ public class homeController {
 	}
 
 	@GetMapping("/agregar")
-	public String add(Usuario usuario, Model mdoel){
+	public String add(Usuario usuario){
 		var fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
 		usuario.setFecha(fecha);
 		return "lista";
