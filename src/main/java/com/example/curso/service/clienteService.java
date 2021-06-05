@@ -23,6 +23,7 @@ public class clienteService {
 
 	@Transactional
 	public void add(Cliente cliente){
+
 		cDao.save(cliente);
 	}
 

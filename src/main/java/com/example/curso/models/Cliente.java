@@ -22,7 +22,7 @@ public class Cliente{
 	private String apellido;
 	private String correo;
 	private String fecha;
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Prestamos> prestamos;
 	
 	

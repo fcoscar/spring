@@ -14,10 +14,9 @@ public class Prestamos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long prestamoId;
     private Long monto;
     private int cuotas;
-    private String fecha;
-    @ManyToOne
+    @ManyToOne(fetch =FetchType.LAZY)
     private Cliente cliente;
 }
