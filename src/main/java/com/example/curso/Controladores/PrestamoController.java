@@ -38,7 +38,7 @@ public class PrestamoController {
     @PostMapping("/guardar")
     public String guardarPrestamo(Prestamos prestamo){
         pService.addPrestamo(prestamo);
-        return "redirect:/home";
+        return "redirect:/ver/" + prestamo.getCliente().getId();
     }
 }
 

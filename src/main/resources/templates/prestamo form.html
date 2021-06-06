@@ -27,10 +27,11 @@
 
 
 <div class="container py-4">
-
+  <h4 class="card-title"><a th:href="@{/ver/} + ${prestamo.cliente.Id}"class="btn btn-primary btn-xs">Regresar</a></h4>
   <div class="card">
     <div class="card-header">Agregar Prestamo</div>
     <div class="card-body">
+
 
       <form class="form" th:action="@{/prestamo/guardar}" method="POST" th:object="${prestamo}">
 
