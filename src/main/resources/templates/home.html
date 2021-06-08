@@ -55,6 +55,7 @@
 				<td th:text="${cliente.fecha}"></td>
 				<td><a class="btn btn-danger" th:href="@{/borrar/} + ${cliente.Id}" th:text="Eliminar" /></td>
 				<td><a class="btn btn-primary" th:href="@{/editar/} + ${cliente.Id}" th:text="Editar"/></td>
+				<td th:text="${cliente.clientePrestamos}"></td>
 			</tr>
 			</tbody>
 

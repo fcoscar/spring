@@ -45,15 +45,15 @@
             <th>Prestamo Id</th>
             <th>Monto</th>
             <th>Cuotas</th>
-<!--            <th>Fecha</th>-->
+            <th>Saldar</th>
           </tr>
         </thead>
         <tbody>
         <tr th:each="prestamo: ${cliente.prestamos}">
         <td th:text="${prestamo.prestamoId}"></td>
         <td th:text="${prestamo.monto}"></td>
-        <td th:text="${prestamo.cuotas}"></td>
-<!--        <td th:text="${prestamo.fecha}"></td>-->
+        <td th:text="${prestamo.cuotas} + '/' + ${prestamo.saldoXmes} + ' x Mes'"></td>
+        <td><a class="btn btn-primary btn-xs" th:href="@{/prestamo/pago/} + ${prestamo.prestamoId}">Realizar Pago</a></td>
         </tr>
         </tbody>
 

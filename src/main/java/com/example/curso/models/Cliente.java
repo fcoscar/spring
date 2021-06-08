@@ -25,5 +25,8 @@ public class Cliente{
 	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Prestamos> prestamos;
 	
-	
+
+	public int clientePrestamos() {
+		return getPrestamos().size();
+	}
 }

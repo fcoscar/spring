@@ -18,4 +18,12 @@ public class PrestamoService {
     public void addPrestamo(Prestamos prestamo){
         pDao.save(prestamo);
     }
+
+    public Prestamos findOne(Prestamos prestamo){
+        return pDao.findById(prestamo.getPrestamoId()).orElse(null);
+    }
+
+    public void eliminar(Prestamos prestamo){
+        pDao.deleteById(prestamo.getPrestamoId());
+    }
 }
