@@ -1,7 +1,6 @@
 package com.example.curso.service;
 
 import java.util.ArrayList;
-
 import com.example.curso.dao.clienteDao;
 import com.example.curso.models.*;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class clienteService {
 
 	@Transactional
 	public void add(Cliente cliente){
-
 		cDao.save(cliente);
 	}
 
