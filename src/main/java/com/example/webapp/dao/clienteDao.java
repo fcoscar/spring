@@ -1,5 +1,5 @@
-package com.example.curso.dao;
-import com.example.curso.models.Cliente;
+package com.example.webapp.dao;
+import com.example.webapp.models.Cliente;
 
 
 import org.springframework.stereotype.Component;

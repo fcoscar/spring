@@ -1,8 +1,8 @@
-package com.example.curso.service;
+package com.example.webapp.service;
 
-import com.example.curso.dao.EmpleadoDao;
-import com.example.curso.models.Empleado;
-import com.example.curso.models.Roles;
+import com.example.webapp.dao.EmpleadoDao;
+import com.example.webapp.models.Empleado;
+import com.example.webapp.models.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

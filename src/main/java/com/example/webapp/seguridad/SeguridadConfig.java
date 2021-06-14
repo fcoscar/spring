@@ -1,6 +1,6 @@
-package com.example.curso.seguridad;
+package com.example.webapp.seguridad;
 
-import com.example.curso.service.EmpleadoDetailsService;
+import com.example.webapp.service.EmpleadoDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

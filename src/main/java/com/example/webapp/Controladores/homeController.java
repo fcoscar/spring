@@ -1,10 +1,10 @@
-package com.example.curso.Controladores;
+package com.example.webapp.Controladores;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import com.example.curso.models.Cliente;
-import com.example.curso.service.clienteService;
+import com.example.webapp.models.Cliente;
+import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

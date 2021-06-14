@@ -1,7 +1,7 @@
-package com.example.curso.service;
+package com.example.webapp.service;
 
-import com.example.curso.dao.PrestamoDao;
-import com.example.curso.models.Prestamos;
+import com.example.webapp.dao.PrestamoDao;
+import com.example.webapp.models.Prestamos;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

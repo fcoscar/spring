@@ -1,12 +1,11 @@
-package com.example.curso.Controladores;
+package com.example.webapp.Controladores;
 
-import com.example.curso.dao.EmpleadoDao;
-import com.example.curso.models.Cliente;
-import com.example.curso.models.Empleado;
-import com.example.curso.models.Prestamos;
-import com.example.curso.service.EmpleadoDetailsService;
-import com.example.curso.service.PrestamoService;
-import com.example.curso.service.clienteService;
+import com.example.webapp.dao.EmpleadoDao;
+import com.example.webapp.models.Cliente;
+import com.example.webapp.models.Empleado;
+import com.example.webapp.models.Prestamos;
+import com.example.webapp.service.PrestamoService;
+import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,11 +1,10 @@
-package com.example.curso.models;
+package com.example.webapp.models;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

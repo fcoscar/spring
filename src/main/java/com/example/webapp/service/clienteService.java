@@ -1,8 +1,9 @@
-package com.example.curso.service;
+package com.example.webapp.service;
 
 import java.util.ArrayList;
-import com.example.curso.dao.clienteDao;
+import com.example.webapp.dao.clienteDao;
 import com.example.curso.models.*;
+import com.example.webapp.models.Cliente;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

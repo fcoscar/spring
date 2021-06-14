@@ -1,6 +1,6 @@
-package com.example.curso.dao;
+package com.example.webapp.dao;
 
-import com.example.curso.models.Prestamos;
+import com.example.webapp.models.Prestamos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
