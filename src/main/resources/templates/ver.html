@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8" />
   <title>Inicio</title>
@@ -21,6 +21,14 @@
           <a class="nav-link" th:href="@{/agregar}">Agregar</a>
         </li>
       </ul>
+      <ul class="navbar-nav navbar-right">
+        <li sec:authorize="!isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/login}">Sign In</a></li>
+
+      </ul>
+      <ul class="navbar-nav navbar-right">
+      <li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out</a></li>
+     </ul>
+
     </div>
   </div>
 </nav>
@@ -38,14 +46,18 @@
         <li class="list-group-item" th:text="${cliente.fecha}"></li>
 
       </ul>
-<div th:if="${#lists.isEmpty(cliente.prestamos)}" class="alert alert-info my-4" th:text="'No hay prestamos para el cliente '+${cliente.nombre}+' '+${cliente.apellido}"></div>
+      <br>
+      <a class="btn btn-primary" th:href="@{/editar/} + ${cliente.Id}" th:text="Editar"/>
+
+      <div th:if="${#lists.isEmpty(cliente.prestamos)}" class="alert alert-info my-4" th:text="'No hay prestamos para el cliente '+${cliente.nombre}+' '+${cliente.apellido}"></div>
       <table th:if="${not #lists.isEmpty(cliente.prestamos)}" class="table table-bordered table-striped my-4">
         <thead>
           <tr>
             <th>Prestamo Id</th>
             <th>Monto</th>
             <th>Cuotas</th>
-            <th>Saldar</th>
+            <th>Empleado</th>
+            <th>Pago</th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +65,8 @@
         <td th:text="${prestamo.prestamoId}"></td>
         <td th:text="${prestamo.monto}"></td>
         <td th:text="${prestamo.cuotas} + '/' + ${prestamo.saldoXmes} + ' x Mes'"></td>
-        <td><a class="btn btn-primary btn-xs" th:href="@{/prestamo/pago/} + ${prestamo.prestamoId}">Realizar Pago</a></td>
+        <td th:text="${prestamo.empleado.getNombre()} + ' ' + ${prestamo.empleado.getApellido()}" ></td>
+        <td><a class="btn btn-primary btn-xs" th:href="@{/prestamo/pago/} + ${prestamo.prestamoId}">Pago Cuota</a></td>
         </tr>
         </tbody>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Lista</title>
@@ -21,8 +21,14 @@
           <a class="nav-link" th:href="@{/agregar}">Agregar</a>
         </li>
       </ul>
+      <ul class="navbar-nav navbar-right">
+        <li sec:authorize="!isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/login}">Sign In</a></li>
+      </ul>
+      <ul class="navbar-nav navbar-right">
+        <li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out</a></li>
+      </ul>
     </div>
-  </div>
+  </div>SS
 </nav>
 
 
@@ -51,6 +57,7 @@
             <td>Cuotas</td>
             <td><input type="text" th:field="*{cuotas}"></td>
           </tr>
+
 
 
 

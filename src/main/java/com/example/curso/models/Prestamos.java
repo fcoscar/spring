@@ -22,6 +22,8 @@ public class Prestamos {
     @ManyToOne(fetch =FetchType.LAZY)
     private Cliente cliente;
     private double saldoXmes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Empleado empleado;
 
 
     public void setSaldoXmes(int cuotas, double monto) {
