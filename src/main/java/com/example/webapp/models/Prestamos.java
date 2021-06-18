@@ -28,7 +28,7 @@ public class Prestamos {
     @ManyToOne(fetch = FetchType.LAZY)
     private Empleado empleado;
     private String fecha;
-    @OneToMany
+    @OneToMany(mappedBy = "prestamo",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<MovimientosPrestamo> movimientos;
 
 

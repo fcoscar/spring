@@ -15,6 +15,9 @@ public class MovimientosPrestamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int mov_id;
-    @ManyToOne
+    private String fecha;
+    private double monto;
+    private double abonado;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Prestamos prestamo;
 }

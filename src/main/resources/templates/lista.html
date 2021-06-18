@@ -25,7 +25,7 @@
 				<li sec:authorize="!isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/login}">Sign In</a></li>
 			</ul>
 			<ul class="navbar-nav navbar-right">
-				<li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out</a></li>
+				<li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out: <span sec:authentication="name"></span></a></li>
 			</ul>
 		</div>
 	</div>

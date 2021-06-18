@@ -26,7 +26,7 @@
 
       </ul>
       <ul class="navbar-nav navbar-right">
-        <li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out</a></li>
+        <li sec:authorize="isAuthenticated()"><a class="btn btn-outline-primary" th:href="@{/logout}">Sign out: <span sec:authentication="name"></span></a></li>
       </ul>
 
     </div>
@@ -37,7 +37,7 @@
 <div class="container py-4">
   <h4 class="card-title"><a th:href="@{/ver/} + ${prestamo.cliente.Id}"class="btn btn-primary btn-xs">Regresar</a></h4>
   <div class="card">
-    <div class="card-header" th:text="${prestamo.descripcion}"></div>
+    <div class="card-header" th:text="'Prestamo ' + ${prestamo.descripcion}"></div>
     <div class="card-body">
       <ul class="list-group">
         <li class="list-group-item active">Datos del cliente</li>
@@ -52,10 +52,33 @@
         <li class="list-group-item" th:text="'Monto del Prestamo: $' + ${prestamo.getMonto_inicial()}"></li>
         <li class="list-group-item" th:text="'Cuotas: ' + ${prestamo.getCuota_inicial()} + '/$' + ${prestamo.getSaldoXmes()}"></li>
         <li class="list-group-item" th:text="'Fecha: ' + ${prestamo.getFecha()}"></li>
+        <br>
+        <h4>Movimientos Prestamos</h4>
 
-      </ul>
+        <div th:if="${#lists.isEmpty(prestamo.movimientos)}" class="alert alert-info my-4" th:text="'No hay movimientos'"></div>
+        <table th:if="${not #lists.isEmpty(prestamo.movimientos)}" class="table table-bordered table-striped my-4">
+          <thead>
+          <tr>
+            <th>Abonado</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="movimiento: ${prestamo.movimientos}">
+            <td th:text="'+'+${movimiento.Abonado}"></td>
+            <td th:text="${movimiento.Monto}"></td>
+            <td th:text="${movimiento.Fecha}"></td>
+
+          </tr>
+          </tbody>
+
+
+
+        </table>
+
       <br>
-
 <!--      <div th:if="${#lists.isEmpty(cliente.prestamos)}" class="alert alert-info my-4" th:text="'No hay prestamos para el cliente '+${cliente.nombre}+' '+${cliente.apellido}"></div>-->
 <!--      <table th:if="${not #lists.isEmpty(cliente.prestamos)}" class="table table-bordered table-striped my-4">-->
 <!--        <thead>-->

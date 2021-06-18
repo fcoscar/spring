@@ -1,8 +1,10 @@
 package com.example.webapp.Controladores;
 
 import com.example.webapp.dao.EmpleadoDao;
+import com.example.webapp.dao.MovimientosDao;
 import com.example.webapp.models.Cliente;
 import com.example.webapp.models.Empleado;
+import com.example.webapp.models.MovimientosPrestamo;
 import com.example.webapp.models.Prestamos;
 import com.example.webapp.service.PrestamoService;
 import com.example.webapp.service.clienteService;
@@ -26,12 +28,15 @@ public class PrestamoController {
     clienteService cService;
     @Autowired
     EmpleadoDao eDao;
+    @Autowired
+    MovimientosDao mDao;
 
 
-    public PrestamoController(PrestamoService pService, clienteService cService, EmpleadoDao eDao){
+    public PrestamoController(PrestamoService pService, clienteService cService, EmpleadoDao eDao, MovimientosDao mDao){
         this.pService=pService;
         this.cService=cService;
         this.eDao=eDao;
+        this.mDao=mDao;
     }
 
     @GetMapping("/eliminar")
@@ -67,11 +72,22 @@ public class PrestamoController {
     }
 
     @GetMapping("/pago/{prestamoId}")
-    public String pagoPrestamo(@PathVariable(value="prestamoId") Long prestamoId, Prestamos prestamo){
+    public String pagoPrestamo(@PathVariable(value="prestamoId") Long prestamoId, Prestamos prestamo, MovimientosPrestamo movPrestamo){
         prestamo.setPrestamoId(prestamoId);
         prestamo = pService.findOne(prestamo);
+
+
+
+        movPrestamo.setAbonado(prestamo.getSaldoXmes());
+        movPrestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(Calendar.getInstance().getTime()));
+
+
+
         prestamo.setMonto(prestamo.getMonto()-prestamo.getSaldoXmes());
         prestamo.setCuotas(prestamo.getCuotas()-1);
+        movPrestamo.setMonto(prestamo.getMonto());
+        movPrestamo.setPrestamo(prestamo);
+        mDao.save(movPrestamo);
 
         if(prestamo.getCuotas()<=0 || prestamo.getMonto()<=0){
             pService.eliminar(prestamo);
