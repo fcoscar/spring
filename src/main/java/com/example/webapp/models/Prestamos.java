@@ -28,6 +28,8 @@ public class Prestamos {
     @ManyToOne(fetch = FetchType.LAZY)
     private Empleado empleado;
     private String fecha;
+    @OneToMany
+    private List<MovimientosPrestamo> movimientos;
 
 
 
