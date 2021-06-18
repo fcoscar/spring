@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,13 +17,18 @@ public class Prestamos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prestamoId;
+    private String descripcion;
     private double monto;
+    private double monto_inicial;
     private int cuotas;
+    private int cuota_inicial;
     @ManyToOne(fetch =FetchType.LAZY)
     private Cliente cliente;
     private double saldoXmes;
     @ManyToOne(fetch = FetchType.LAZY)
     private Empleado empleado;
+    private String fecha;
+
 
 
     public void setSaldoXmes(int cuotas, double monto) {
@@ -35,3 +41,4 @@ public class Prestamos {
         return bd.doubleValue();
     }
 }
+

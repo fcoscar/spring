@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/prestamo")
@@ -57,6 +59,9 @@ public class PrestamoController {
         prestamo.setSaldoXmes(prestamo.round(prestamo.getSaldoXmes()));
         Empleado empleado = eDao.findByUsuario(principal.getName());
         prestamo.setEmpleado(empleado);
+        prestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+        prestamo.setCuota_inicial(prestamo.getCuotas());
+        prestamo.setMonto_inicial(prestamo.getMonto());
         pService.addPrestamo(prestamo);
         return "redirect:/ver/" + prestamo.getCliente().getId();
     }
@@ -68,13 +73,22 @@ public class PrestamoController {
         prestamo.setMonto(prestamo.getMonto()-prestamo.getSaldoXmes());
         prestamo.setCuotas(prestamo.getCuotas()-1);
 
-        if(prestamo.getCuotas()<=0){
+        if(prestamo.getCuotas()<=0 || prestamo.getMonto()<=0){
             pService.eliminar(prestamo);
             return "redirect:/ver/" + prestamo.getCliente().getId();
         }else {
             pService.addPrestamo(prestamo);
             return "redirect:/ver/" + prestamo.getCliente().getId();
         }
+    }
+
+    @GetMapping("/detalles/{prestamoId}")
+    public String detallesPrestamo(@PathVariable(value = "prestamoId") Long prestamoId, Prestamos prestamo, Model model){
+
+        prestamo.setPrestamoId(prestamoId);
+        prestamo = pService.findOne(prestamo);
+        model.addAttribute("prestamo",prestamo);
+        return "detallesPrestamo";
     }
 }
 

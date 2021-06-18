@@ -54,19 +54,23 @@
         <thead>
           <tr>
             <th>Prestamo Id</th>
+            <th>Descripcion</th>
             <th>Monto</th>
             <th>Cuotas</th>
             <th>Empleado</th>
             <th>Pago</th>
+            <th>Detalles</th>
           </tr>
         </thead>
         <tbody>
         <tr th:each="prestamo: ${cliente.prestamos}">
         <td th:text="${prestamo.prestamoId}"></td>
+        <td th:text="${prestamo.descripcion}"></td>
         <td th:text="${prestamo.monto}"></td>
         <td th:text="${prestamo.cuotas} + '/' + ${prestamo.saldoXmes} + ' x Mes'"></td>
         <td th:text="${prestamo.empleado.getNombre()} + ' ' + ${prestamo.empleado.getApellido()}" ></td>
         <td><a class="btn btn-primary btn-xs" th:href="@{/prestamo/pago/} + ${prestamo.prestamoId}">Pago Cuota</a></td>
+        <td><a class="btn btn-primary btn-xs" th:href="@{/prestamo/detalles/} + ${prestamo.prestamoId}">Ver Detalles</a></td>
         </tr>
         </tbody>
 
