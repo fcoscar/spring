@@ -3,66 +3,56 @@ package com.example.webapp.Controladores;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import com.example.webapp.models.Cliente;
 import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
 public class homeController {
 
 	@Autowired
 	clienteService uService;
 
 	@GetMapping({"/home", "/"})
-	public String getAll(Model model) {
-		var clientes = new ArrayList<>(uService.getAll());
-		model.addAttribute("clientes", clientes);//mandar info a la pagina html
-		return "home";
+	public ArrayList<Cliente> getAll() {
+		return uService.getAll();
 	}
 
 	@PostMapping("/guardar")
-	public String save(Cliente cliente){
-		uService.add(cliente);
-		return "redirect:/home";
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente save(@RequestBody Cliente cliente){
+		return uService.add(cliente);
+
+	}
+	@GetMapping("/cliente/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente getOne(@PathVariable Long id){
+		return uService.getOne(id);
 	}
 
-	@GetMapping("/agregar")
-	public String add(Cliente cliente){
-		var fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-		cliente.setFecha(fecha);
-		return "lista";
+	@DeleteMapping("/borrar/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long id){
+		uService.delete(id);
 	}
 
-	@GetMapping("/borrar/{Id}")
-	public String delete(Cliente cliente){
-		uService.delete(cliente.getId());
-		return "redirect:/home";
+
+	@PutMapping("/editar/{id}")
+	public Cliente saveEdit(@RequestBody Cliente cliente,@PathVariable Long id){
+		Cliente clienteActual = uService.getOne(id);
+
+		clienteActual.setNombre(cliente.getNombre());
+		clienteActual.setApellido(cliente.getApellido());
+		clienteActual.setCorreo(cliente.getCorreo());
+
+		return uService.add(clienteActual);
 	}
 
-	@GetMapping("/editar/{Id}")
-	public String edit(Model model, Cliente cliente){
-		cliente = uService.getOne(cliente);
-		model.addAttribute("cliente", cliente);
-		return "lista";
-	}
-
-	@PutMapping("/editar/{Id}")
-	public String saveEdit(Cliente cliente){
-		uService.add(cliente);
-		return "redirect:/home";
-	}
-
-	@GetMapping("/ver/{Id}")
-	public String ver(Cliente cliente, Model model){
-		cliente = uService.getOne(cliente);
-		model.addAttribute("cliente", cliente);
-		return "ver";
-	}
 
 
 }

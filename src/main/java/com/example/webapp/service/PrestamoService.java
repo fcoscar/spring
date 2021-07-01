@@ -15,15 +15,16 @@ public class PrestamoService {
     }
 
     @Transactional
-    public void addPrestamo(Prestamos prestamo){
-        pDao.save(prestamo);
+    public Prestamos addPrestamo(Prestamos prestamo){
+        return pDao.save(prestamo);
     }
 
-    public Prestamos findOne(Prestamos prestamo){
-        return pDao.findById(prestamo.getPrestamoId()).orElse(null);
+    @Transactional(readOnly = true)
+    public Prestamos findOne(Long prestamoId){
+        return pDao.findById(prestamoId).orElse(null);
     }
 
-    public void eliminar(Prestamos prestamo){
-        pDao.deleteById(prestamo.getPrestamoId());
+    public void eliminar(Long id){
+        pDao.deleteById(id);
     }
 }

@@ -21,8 +21,8 @@ public class clienteService {
 	}
 
 	@Transactional
-	public void add(Cliente cliente){
-		cDao.save(cliente);
+	public Cliente add(Cliente cliente){
+		return cDao.save(cliente);
 	}
 
 	@Transactional
@@ -31,8 +31,8 @@ public class clienteService {
 	}
 
 	@Transactional(readOnly = true)
-	public Cliente getOne(Cliente cliente){
-		return cDao.findById(cliente.getId()).orElse(null);
+	public Cliente getOne(Long id){
+		return cDao.findById(id).orElse(null);
 	}
 
 }

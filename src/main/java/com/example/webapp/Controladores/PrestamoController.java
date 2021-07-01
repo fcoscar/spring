@@ -9,7 +9,7 @@ import com.example.webapp.models.Prestamos;
 import com.example.webapp.service.PrestamoService;
 import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,8 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/prestamo")
 @SessionAttributes("prestamo")
 public class PrestamoController {
@@ -40,69 +41,55 @@ public class PrestamoController {
     }
 
     @GetMapping("/eliminar")
-    public void eliminar(Prestamos prestamo){
-        pService.eliminar(prestamo);
+    public void eliminar(@PathVariable Long id){
+        pService.eliminar(id);
     }
 
-
-
-    @GetMapping("/agregar/{Id}")
-    public String addPrestamo(@PathVariable(value="Id") Long clienteId, Model model){
-        Cliente cliente = new Cliente();
-        cliente.setId(clienteId);
-        cliente = cService.getOne(cliente);
-        Prestamos prestamo = new Prestamos();
-        prestamo.setCliente(cliente);
-        model.addAttribute("prestamo", prestamo);
-        return "prestamo form";
-    }
 
     @PostMapping("/guardar")
-    public String guardarPrestamo(Prestamos prestamo, Principal principal){
-        prestamo.setMonto(prestamo.round(prestamo.getMonto()));
-        prestamo.setSaldoXmes(prestamo.getCuotas(), prestamo.getMonto());
-        prestamo.setSaldoXmes(prestamo.round(prestamo.getSaldoXmes()));
-        Empleado empleado = eDao.findByUsuario(principal.getName());
-        prestamo.setEmpleado(empleado);
-        prestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
-        prestamo.setCuota_inicial(prestamo.getCuotas());
-        prestamo.setMonto_inicial(prestamo.getMonto());
-        pService.addPrestamo(prestamo);
-        return "redirect:/ver/" + prestamo.getCliente().getId();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Prestamos guardarPrestamo(@RequestBody Prestamos prestamo /*, Principal principal*/){
+        prestamo.config(prestamo);
+        return pService.addPrestamo(prestamo);
     }
 
-    @GetMapping("/pago/{prestamoId}")
-    public String pagoPrestamo(@PathVariable(value="prestamoId") Long prestamoId, Prestamos prestamo, MovimientosPrestamo movPrestamo){
-        prestamo.setPrestamoId(prestamoId);
-        prestamo = pService.findOne(prestamo);
+    @GetMapping("/{prestamoId}")
+    public Prestamos getOne(@PathVariable Long prestamoId){
+        return pService.findOne(prestamoId);
+    }
 
 
+    @PutMapping("/pago/{prestamoId}")
+    public void pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo,@PathVariable Long prestamoId){
 
-        movPrestamo.setAbonado(prestamo.getSaldoXmes());
+        prestamoActual = pService.findOne(prestamoId);
+
+
+        movPrestamo.setAbonado(prestamoActual.getSaldoXmes());
         movPrestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(Calendar.getInstance().getTime()));
 
-
-
-        prestamo.setMonto(prestamo.getMonto()-prestamo.getSaldoXmes());
-        prestamo.setCuotas(prestamo.getCuotas()-1);
-        movPrestamo.setMonto(prestamo.getMonto());
-        movPrestamo.setPrestamo(prestamo);
+        prestamoActual.setMonto(prestamoActual.round(prestamoActual.getMonto()-prestamoActual.getSaldoXmes()));
+        prestamoActual.setCuotas(prestamoActual.getCuotas()-1);
+        movPrestamo.setMonto(prestamoActual.getMonto());
+        movPrestamo.setPrestamo(prestamoActual);
         mDao.save(movPrestamo);
 
-        if(prestamo.getCuotas()<=0 || prestamo.getMonto()<=0){
-            pService.eliminar(prestamo);
-            return "redirect:/ver/" + prestamo.getCliente().getId();
-        }else {
-            pService.addPrestamo(prestamo);
-            return "redirect:/ver/" + prestamo.getCliente().getId();
+        if(prestamoActual.getCuotas()<=0 || prestamoActual.getMonto()<=0){
+            pService.eliminar(prestamoActual.getPrestamoId());
+
+
+        }else{
+            pService.addPrestamo(prestamoActual);
         }
+
+
+
     }
 
     @GetMapping("/detalles/{prestamoId}")
     public String detallesPrestamo(@PathVariable(value = "prestamoId") Long prestamoId, Prestamos prestamo, Model model){
 
-        prestamo.setPrestamoId(prestamoId);
-        prestamo = pService.findOne(prestamo);
+        prestamo = pService.findOne(prestamoId);
         model.addAttribute("prestamo",prestamo);
         return "detallesPrestamo";
     }

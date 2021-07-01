@@ -1,9 +1,14 @@
 package com.example.webapp.models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -21,9 +26,14 @@ public class Cliente{
 	private String correo;
 	private String fecha;
 	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference//https://stackoverflow.com/questions/36983215/failed-to-write-http-message-org-springframework-http-converter-httpmessagenotw
 	private List<Prestamos> prestamos;
+	private String telefono;
 
-	
+	@PrePersist
+	public void fecha(){
+		fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+	}
 
 	public int clientePrestamos() {
 		return getPrestamos().size();
