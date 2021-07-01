@@ -1,14 +1,10 @@
 package com.example.webapp.Controladores;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import com.example.webapp.models.Cliente;
 import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
