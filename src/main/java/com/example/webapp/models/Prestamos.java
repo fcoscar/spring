@@ -30,6 +30,7 @@ public class Prestamos {
     @JsonBackReference// https://stackoverflow.com/questions/36983215/failed-to-write-http-message-org-springframework-http-converter-httpmessagenotw
     private Cliente cliente;
     private double saldoXmes;
+    private double abonado;
     @ManyToOne(fetch = FetchType.LAZY)
     private Empleado empleado;
     private String fecha;

@@ -10,6 +10,7 @@ import com.example.webapp.service.PrestamoService;
 import com.example.webapp.service.clienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,6 @@ public class PrestamoController {
         pService.eliminar(id);
     }
 
-
     @PostMapping("/guardar")
     @ResponseStatus(HttpStatus.CREATED)
     public Prestamos guardarPrestamo(@RequestBody Prestamos prestamo /*, Principal principal*/){
@@ -58,17 +58,20 @@ public class PrestamoController {
         return pService.findOne(prestamoId);
     }
 
-
-    @PutMapping("/pago/{prestamoId}")
-    public void pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo,@PathVariable Long prestamoId){
+    @PutMapping("/pago/{prestamoId}/{abonado}")
+    public ResponseEntity<?> pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo, @PathVariable Long prestamoId, @PathVariable double abonado){
 
         prestamoActual = pService.findOne(prestamoId);
 
+        if(abonado<prestamoActual.getSaldoXmes()){
+            String response = "El pago tiene que ser mayor a " + prestamoActual.getSaldoXmes();
+            return new ResponseEntity<String>(response, HttpStatus.NOT_ACCEPTABLE);
+        }
 
-        movPrestamo.setAbonado(prestamoActual.getSaldoXmes());
+        movPrestamo.setAbonado(abonado);
         movPrestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(Calendar.getInstance().getTime()));
 
-        prestamoActual.setMonto(prestamoActual.round(prestamoActual.getMonto()-prestamoActual.getSaldoXmes()));
+        prestamoActual.setMonto(prestamoActual.round(prestamoActual.getMonto()-abonado));
         prestamoActual.setCuotas(prestamoActual.getCuotas()-1);
         movPrestamo.setMonto(prestamoActual.getMonto());
         movPrestamo.setPrestamo(prestamoActual);
@@ -77,12 +80,11 @@ public class PrestamoController {
         if(prestamoActual.getCuotas()<=0 || prestamoActual.getMonto()<=0){
             pService.eliminar(prestamoActual.getPrestamoId());
 
-
         }else{
             pService.addPrestamo(prestamoActual);
         }
 
-
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
