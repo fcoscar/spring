@@ -59,11 +59,11 @@ public class PrestamoController {
     }
 
     @PutMapping("/pago/{prestamoId}/{abonado}")
-    public ResponseEntity<?> pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo, @PathVariable Long prestamoId, @PathVariable double abonado){
+    public ResponseEntity<?> pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo, @PathVariable(value="prestamoId") Long prestamoId, @PathVariable(value="abonado") double abonado){
 
         prestamoActual = pService.findOne(prestamoId);
 
-        if(abonado<prestamoActual.getSaldoXmes()){
+        if(abonado<prestamoActual.getSaldoXmes() && prestamoActual.getMonto() > prestamoActual.getSaldoXmes()){
             String response = "El pago tiene que ser mayor a " + prestamoActual.getSaldoXmes();
             return new ResponseEntity<String>(response, HttpStatus.NOT_ACCEPTABLE);
         }
@@ -84,16 +84,15 @@ public class PrestamoController {
             pService.addPrestamo(prestamoActual);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(prestamoActual,HttpStatus.OK);
 
     }
 
     @GetMapping("/detalles/{prestamoId}")
-    public String detallesPrestamo(@PathVariable(value = "prestamoId") Long prestamoId, Prestamos prestamo, Model model){
+    public Prestamos detallesPrestamo(@PathVariable(value = "prestamoId") Long prestamoId, Prestamos prestamo, Model model){
 
-        prestamo = pService.findOne(prestamoId);
-        model.addAttribute("prestamo",prestamo);
-        return "detallesPrestamo";
+        return prestamo = pService.findOne(prestamoId);
+
     }
 }
 
