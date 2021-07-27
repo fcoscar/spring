@@ -21,13 +21,17 @@ public class Cliente{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
+	@Column(nullable = false)
 	private String nombre;
+	@Column(nullable = false)
 	private String apellido;
+	@Column(nullable = false, unique = true)
 	private String correo;
 	private String fecha;
 	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference//https://stackoverflow.com/questions/36983215/failed-to-write-http-message-org-springframework-http-converter-httpmessagenotw
 	private List<Prestamos> prestamos;
+	@Column(nullable = false)
 	private String telefono;
 
 	@PrePersist

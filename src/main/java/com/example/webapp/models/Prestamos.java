@@ -22,8 +22,10 @@ public class Prestamos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prestamoId;
     private String descripcion;
+    @Column(nullable = false)
     private double monto;
     private double monto_inicial;
+    @Column(nullable = false)
     private int cuotas;
     private int cuota_inicial;
     @ManyToOne(fetch =FetchType.LAZY)
