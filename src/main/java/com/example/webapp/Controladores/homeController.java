@@ -76,6 +76,7 @@ public class homeController {
 		try {
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setApellido(cliente.getApellido());
+			clienteActual.setTelefono(cliente.getTelefono());
 			clienteActual.setCorreo(cliente.getCorreo());
 			clienteActualizado = uService.add(clienteActual);
 		}catch (DataAccessException e){
