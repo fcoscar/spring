@@ -67,20 +67,41 @@ public class PrestamoController {
     }
 
     @GetMapping("/{prestamoId}")
-    public Prestamos getOne(@PathVariable Long prestamoId){
-        return pService.findOne(prestamoId);
+    public ResponseEntity<?> getOne(@PathVariable Long prestamoId){
+        Prestamos prestamo = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try{
+            prestamo = pService.findOne(prestamoId);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al obtener prestamo");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(prestamo==null){
+            response.put("mensaje", "El prestamo ID: ".concat(prestamoId.toString()).concat(" no existe"));
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(prestamo, HttpStatus.OK);
     }
 
     @PutMapping("/pago/{prestamoId}/{abonado}")
-    public ResponseEntity<?> pagoPrestamo(Prestamos prestamoActual, MovimientosPrestamo movPrestamo, @PathVariable(value="prestamoId") Long prestamoId, @PathVariable(value="abonado") double abonado){
-
-        prestamoActual = pService.findOne(prestamoId);
-
-        if(abonado<prestamoActual.getSaldoXmes() && prestamoActual.getMonto() > prestamoActual.getSaldoXmes()){
-            String response = "El pago tiene que ser mayor a " + prestamoActual.getSaldoXmes();
-            return new ResponseEntity<String>(response, HttpStatus.NOT_ACCEPTABLE);
+    public ResponseEntity<?> pagoPrestamo(@PathVariable(value="prestamoId") Long prestamoId, @PathVariable(value="abonado") double abonado){
+        Prestamos prestamoActual = null;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            prestamoActual = pService.findOne(prestamoId);
+        } catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar el pago");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        if(abonado<prestamoActual.getSaldoXmes() && prestamoActual.getMonto() > prestamoActual.getSaldoXmes()){
+            response.put("mensaje", "El pago tiene que ser mayor a " + prestamoActual.getSaldoXmes());
+            return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+        }
+        MovimientosPrestamo movPrestamo = new MovimientosPrestamo();
         movPrestamo.setAbonado(abonado);
         movPrestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(Calendar.getInstance().getTime()));
 
@@ -97,7 +118,9 @@ public class PrestamoController {
             pService.addPrestamo(prestamoActual);
         }
 
-        return new ResponseEntity<>(prestamoActual,HttpStatus.OK);
+        response.put("mensaje", "Pago realizado correctamente");
+        response.put("prestamo",prestamoActual);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
     }
 
