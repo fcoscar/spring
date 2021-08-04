@@ -25,7 +25,7 @@ public class Cliente{
 	private String nombre;
 	@Column(nullable = false)
 	private String apellido;
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false,unique = true)
 	private String correo;
 	private String fecha;
 	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL)

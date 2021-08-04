@@ -30,8 +30,8 @@ public class homeController {
 		try{
 			 clienteNew = uService.add(cliente);
 		}catch(DataAccessException e){
-			response.put("mensaje", "Error al guaradar el cliente");
-			response.put("erro", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("mensaje", "Error al guardar el cliente");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "El cliente se creo con exito");
@@ -60,7 +60,7 @@ public class homeController {
 			response.put("error", e.getMessage().concat(":" ).concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "Cliente eliminado correctament");
+		response.put("mensaje", "Cliente eliminado correctamente");
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

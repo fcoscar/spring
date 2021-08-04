@@ -44,11 +44,6 @@ public class PrestamoController {
         this.mDao=mDao;
     }
 
-    @GetMapping("/eliminar")
-    public void eliminar(@PathVariable Long id){
-        pService.eliminar(id);
-    }
-
     @PostMapping("/guardar")
     public ResponseEntity<?> guardarPrestamo(@RequestBody Prestamos prestamo /*, Principal principal*/){
         Prestamos prestamoNew = null;
@@ -61,7 +56,7 @@ public class PrestamoController {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El prestamo se creo correctamentee");
+        response.put("mensaje", "El prestamo se creo correctamente");
         response.put("prestamo", prestamoNew);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
