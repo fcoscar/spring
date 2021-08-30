@@ -18,7 +18,7 @@ public class homeController {
 	@Autowired
 	clienteService uService;
 
-	@GetMapping({"/hihome", "/"})
+	@GetMapping({"/home", "/"})
 	public ArrayList<Cliente> getAll() {
 		return uService.getAll();
 	}
