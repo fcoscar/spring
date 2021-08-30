@@ -45,8 +45,8 @@ public class Prestamos {
         this.fecha = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
     }
 
-   public void config(Prestamos prestamo){
-       prestamo.setMonto(round(prestamo.getMonto()));
+public void config(Prestamos prestamo){
+          prestamo.setMonto(round(prestamo.getMonto()));
        prestamo.setSaldoXmes(prestamo.getCuotas(), prestamo.getMonto());
        prestamo.setSaldoXmes(prestamo.round(prestamo.getSaldoXmes()));
        //Empleado empleado = eDao.findByUsuario(principal.getName());
