@@ -106,7 +106,7 @@ public class PrestamoController {
         movPrestamo.setPrestamo(prestamoActual);
         mDao.save(movPrestamo);
 
-        if(prestamoActual.getCuotas()<=0 || prestamoActual.getMonto()<=0) pService.eliminar(prestamoActual.getPrestamoId());
+        if (prestamoActual.getCuotas()<=0 || prestamoActual.getMonto()<=0) pService.eliminar(prestamoActual.getPrestamoId());
 
         else pService.addPrestamo(prestamoActual);
 
