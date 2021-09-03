@@ -120,6 +120,7 @@ public class PrestamoController {
     @GetMapping("/detalles/{prestamoId}")
     public Prestamos detallesPrestamo(@PathVariable(value = "prestamoId") Long prestamoId, Prestamos prestamo, Model model){
 
+
         return prestamo = pService.findOne(prestamoId);
 
     }
