@@ -24,14 +24,17 @@ public class SeguridadConfig extends WebSecurityConfigurerAdapter {
 //        build.userDetailsService(eDetails).passwordEncoder(codificador());
 //    }
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests ->
-                // All requests are ignored, spring security is useless
-                // anyRequest() restricts any request
-                // permitAll() allows unconditional access
-                authorizeRequests.anyRequest().permitAll()
-
-        ).csrf().disable();
+    public void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(eDetails).passwordEncoder(codificador());
+    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        http.authorizeRequests().antMatchers("/borrar")
+                .hasRole("ADMIN")
+                .antMatchers("/**")
+                .hasRole("ADMIN")
+                .and()
+                .httpBasic();
     }
 
 

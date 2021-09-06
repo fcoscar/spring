@@ -101,7 +101,8 @@ public class PrestamoController {
         movPrestamo.setFecha(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm:ss").format(Calendar.getInstance().getTime()));
 
         prestamoActual.setMonto(prestamoActual.round(prestamoActual.getMonto()-abonado));
-        prestamoActual.setCuotas(prestamoActual.getCuotas()-1);
+        int cuotas = (int) ((int)abonado/prestamoActual.getSaldoXmes());
+        prestamoActual.setCuotas(prestamoActual.getCuotas()-cuotas) ;
         movPrestamo.setMonto(prestamoActual.getMonto());
         movPrestamo.setPrestamo(prestamoActual);
         mDao.save(movPrestamo);

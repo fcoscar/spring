@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("userDetailsService")
 public class EmpleadoDetailsService implements UserDetailsService {
 
     private EmpleadoDao eDao;
@@ -35,6 +35,6 @@ public class EmpleadoDetailsService implements UserDetailsService {
             roles.add(new SimpleGrantedAuthority(rol.getRol()));
         }
 
-            return new User(empleado.getUsuario(), empleado.getClave(), empleado.isActivado(),true,true,true,roles);
+            return new User(empleado.getUsuario(), empleado.getClave(),roles);
     }
 }
