@@ -20,9 +20,6 @@ public class SeguridadConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    public void configureGlobal(AuthenticationManagerBuilder build) throws Exception{
-//        build.userDetailsService(eDetails).passwordEncoder(codificador());
-//    }
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(eDetails).passwordEncoder(codificador());
